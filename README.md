@@ -1,11 +1,11 @@
 # AWS Lambda Translation Function
 
-This project is a serverless AWS Lambda function that automatically translates PDF files into Arabic using the Google Generative AI (Gemini 2.5 Flash) API. It processes PDFs uploaded to an S3 bucket, translates them while preserving formatting, headings, and page numbers, and stores the translated text in a destination S3 bucket. The solution leverages parallel processing for efficiency and is designed for scalability in a serverless environment.
+This project is a serverless AWS Lambda function that automatically translates PDF files using the Google Generative AI (Gemini 2.5 Flash) API. It processes PDFs uploaded to an S3 bucket, translates them while preserving formatting, headings, and page numbers, and stores the translated text in a destination S3 bucket. The solution leverages parallel processing for efficiency and is designed for scalability in a serverless environment.
 
 ## 🚀 Features
 
 - **Serverless Automation**: Triggered by PDF uploads to an S3 bucket.
-- **High-Quality Translation**: Uses the Gemini 2.5 Flash model to translate PDFs into Arabic, maintaining original structure.
+- **High-Quality Translation**: Uses the Gemini 2.5 Flash model to translate PDFs, maintaining original structure.
 - **Parallel Processing**: Translates PDF chunks concurrently to optimize performance.
 - **S3 Integration**: Reads from a source bucket and writes to a destination bucket.
 - **Error Handling**: Includes retries for API failures and logging for debugging.
@@ -72,6 +72,7 @@ Create an IAM role with the following permissions:
      ```plaintext
      GEMINI_API_KEY = <your-gemini-api-key>
      DEST_BUCKET_NAME = <your-destination-bucket>
+     TARGET_LANGUAGE = <your_target_language>
      ```
 
 5. **Configure Lambda Settings**:
@@ -86,7 +87,7 @@ Create an IAM role with the following permissions:
 1. Upload a PDF file to the source S3 bucket (e.g., `my-source-bucket/myfile.pdf`).
 2. The Lambda function will:
    - Split the PDF into chunks (10 pages each).
-   - Translate each chunk into Arabic using the Gemini API.
+   - Translate each chunk using the Gemini API.
    - Combine translated texts into a single file.
    - Save the result as `myfile.txt` in the destination bucket.
 3. Check the destination bucket for the translated text file.
