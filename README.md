@@ -50,39 +50,98 @@ Create an IAM role with the following permissions:
 - `AWSLambdaBasicExecutionRole` for CloudWatch logging
 - (Optional) Custom inline policy for tighter security
 
-Attach this role to your Lambda function.
-
 
 ## 🛠 Setup Instructions
 
-### 1. Create the Lambda Function
+1. **Create the Lambda Function**:
+   - In the AWS Lambda Console, create a new function in the same region as the S3 buckets, with Python 3.10+ as the runtime 
+   - Attach the role created above to the lambda function.
+   - Upload the provided code 
 
-- In the AWS Lambda Console, create a new function with Python 3.10+ as the runtime in the same region as the S3 buckets.
-- Attach the role created above to the lambda function.
-- Upload the provided code.
+2. **Set Up the S3 Trigger**
+   - Set the trigger of the lambda function to be the S3 Source bucket. 
+   - Set the event type to `All object create events`. 
+   - Set the suffix: `*.pdf` , to filter for pdf files.
 
-### 2. Add the function trigger
+3. **Add the Lambda Layer**:
+   - Upload the provided `layer.zip` file as a Lambda layer (contains `google-generativeai`, `natsort` ,`PyPDF2`).
+   - Attach the layer to the function under **Layers** in the Lambda Console.
 
-- Set the trigger of the lambda function to be the S3 Source pucket. 
-- Set the event type to All object create events. 
-- Set the suffix: *.pdf , to filter for pdf files.
+4. **Configure Environment Variables**:
+   - Add the **Environment variables** 
+     ```plaintext
+     GEMINI_API_KEY = <your-gemini-api-key>
+     DEST_BUCKET_NAME = <your-destination-bucket>
+     ```
 
-### 3. Add the Lambda Layer
+5. **Configure Lambda Settings**:
+   - **Memory**: Set to at least 512 MB (adjust based on PDF size).
+   - **Timeout**: Set to at least 3 minutes (adjust for larger PDFs).
+  
+6. **Deploy the Function**:
+   - Deploy the function and test it by uploading a PDF to the source bucket.
 
-- Upload the provided layer.zip file as a Lambda layer.
-- Attach the layer to the function under Layers in the Lambda Console.
+## 📖 Usage
 
-### 4. Configure Environment Variables
+1. Upload a PDF file to the source S3 bucket (e.g., `my-source-bucket/myfile.pdf`).
+2. The Lambda function will:
+   - Split the PDF into chunks (10 pages each).
+   - Translate each chunk into Arabic using the Gemini API.
+   - Combine translated texts into a single file.
+   - Save the result as `myfile.txt` in the destination bucket.
+3. Check the destination bucket for the translated text file.
 
-- Add Environment variables:
-GEMINI_API_KEY = <your-gemini-api-key>
-DEST_BUCKET_NAME = <your-destination-bucket>
+**Example Output**:
+- Input: `my-source-bucket/document.pdf`
+- Output: `my-destination-bucket/document.txt`
 
-### 5. Configure Lambda Settings
+## 🧪 Testing
 
-- Memory: Set to at least 512 MB (adjust based on PDF size).
-- Timeout: Set to at least 3 minutes (adjust for larger PDFs).
+1. **Local Testing**:
+   - Simulate the Lambda event with a sample PDF and mock S3 using `boto3`.
+   - Example event:
+     ```json
+     {
+       "Records": [
+         {
+           "s3": {
+             "bucket": { "name": "my-source-bucket" },
+             "object": { "key": "test.pdf" }
+           }
+         }
+       ]
+     }
+     
+     ```
 
-### 6. Deploy the Function
+2. **AWS Testing**:
+   - Upload a small PDF to the source bucket and monitor CloudWatch logs.
+   - Verify the translated file appears in the destination bucket.
 
-- Deploy the function and test it by uploading a PDF to the source bucket.
+## 🛑 Troubleshooting
+
+- **Error: "Unsupported file extension"**:
+  - Ensure only PDF files are uploaded to the source bucket.
+- **Error: Gemini API failures**:
+  - Check the API key and ensure billing is enabled in Google Vertex AI.
+  - Monitor rate limits; reduce `max_workers` in the code if needed (default: 4).
+- **Timeout Issues**:
+  - Increase the Lambda timeout (e.g., to 5–10 minutes for large PDFs).
+- **Memory Issues**:
+  - Increase Lambda memory (e.g., to 1024 MB for large PDFs).
+- **Logs**: Check CloudWatch logs for detailed error messages (`errors.log` for translation failures).
+
+
+## 🤝 Contributing
+
+Contributions are welcome! Please:
+1. Fork the repository.
+2. Create a feature branch (`git checkout -b feature/YourFeature`).
+3. Commit changes (`git commit -m 'Add YourFeature'`).
+4. Push to the branch (`git push origin feature/YourFeature`).
+5. Open a pull request.
+
+## 📧 Contact
+
+For questions or feedback, open an issue or contact at sara.ghonim2014@gmail.com
+
