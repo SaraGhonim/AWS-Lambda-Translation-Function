@@ -21,7 +21,7 @@ The workflow is as follows:
 
 ```plaintext
 [S3 Source Bucket] → [AWS Lambda] → [Gemini API] → [S3 Destination Bucket]
-
+```
 
 ## 📦 Prerequisites
 
