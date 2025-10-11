@@ -14,6 +14,7 @@ class GeminiTranslator(ITranslator):
 
     def translate(self, file_path: str) -> str | None:
         """Requests translation of a single PDF file's content."""
+        target_language = os.environ.get("TARGET_LANGUAGE", "Arabic")
         with open(file_path, "rb") as f:
             file_bytes = f.read()
         
@@ -29,7 +30,7 @@ class GeminiTranslator(ITranslator):
                             }
                         },
                         {
-                            "text": "Translate the contents of this PDF into Arabic. Maintain the original formatting, headings, bullet points, and structure as much as possible. Return only the translation with the page number صفحة, with no additions, explanations, or suggestions"
+                            "text": f"Translate the contents of this PDF into {target_language}. Maintain the original formatting, headings, bullet points, and structure as much as possible. Return only the translation with the page number صفحة, with no additions, explanations, or suggestions"
                         }
                     ]
                 )
