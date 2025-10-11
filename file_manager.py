@@ -1,7 +1,7 @@
 import os
 import re
 from natsort import natsorted
-from .interfaces import IFileManager
+from interfaces import IFileManager
 
 class FileManager(IFileManager):
     """Manages saving and combining translated text files."""
