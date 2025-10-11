@@ -1,6 +1,6 @@
 # AWS Lambda Translation Function
 
-This project is a serverless AWS Lambda function that automatically translates PDF files using the Google Generative AI (Gemini 2.5 Flash) API. It processes PDFs uploaded to an S3 bucket, translates them while preserving formatting, headings, and page numbers, and stores the translated text in a destination S3 bucket. The solution leverages parallel processing for efficiency and is designed for scalability in a serverless environment.
+This project is a serverless AWS Lambda function that automatically translates PDF files into any language using the Google Generative AI (Gemini 2.5 Flash) API. It processes PDFs uploaded to an S3 bucket, translates them while preserving formatting, headings, and page numbers, and stores the translated text in a destination S3 bucket. The solution leverages parallel processing for efficiency and is designed for scalability in a serverless environment.
 
 ## 🚀 Features
 
