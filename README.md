@@ -51,7 +51,7 @@ Create an IAM role with the following permissions:
 - (Optional) Custom inline policy for tighter security
 
 
-## 🛠 Setup Instructions
+## Setup Instructions
 
 1. **Create the Lambda Function**:
    - In the AWS Lambda Console, create a new function in the same region as the S3 buckets, with Python 3.10+ as the runtime 
@@ -142,7 +142,7 @@ Contributions are welcome! Please:
 4. Push to the branch (`git push origin feature/YourFeature`).
 5. Open a pull request.
 
-## 📧 Contact
+## Contact
 
 For questions or feedback, open an issue or contact at sara.ghonim2014@gmail.com
 
