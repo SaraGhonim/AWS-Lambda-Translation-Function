@@ -2,7 +2,7 @@
 
 This project is a serverless AWS Lambda function that automatically translates PDF files into any language using the Google Generative AI (Gemini 2.5 Flash) API. It processes PDFs uploaded to an S3 bucket, translates them while preserving formatting, headings, and page numbers, and stores the translated text in a destination S3 bucket. The solution leverages parallel processing for efficiency and is designed for scalability in a serverless environment.
 
-## 🚀 Features
+## Features
 
 - **Serverless Automation**: Triggered by PDF uploads to an S3 bucket.
 - **High-Quality Translation**: Uses the Gemini 2.5 Flash model to translate PDFs, maintaining original structure.
@@ -10,7 +10,7 @@ This project is a serverless AWS Lambda function that automatically translates P
 - **S3 Integration**: Reads from a source bucket and writes to a destination bucket.
 - **Error Handling**: Includes retries for API failures and logging for debugging.
 
-## 🏛 Architecture
+## Architecture
 
 The workflow is as follows:
 1. A PDF is uploaded to the source S3 bucket, triggering the Lambda function.
@@ -23,7 +23,7 @@ The workflow is as follows:
 [S3 Source Bucket] → [AWS Lambda] → [Gemini API] → [S3 Destination Bucket]
 ```
 
-## 📦 Prerequisites
+## Prerequisites
 
 Before using this project, make sure the following resources are created:
 
@@ -82,7 +82,7 @@ Create an IAM role with the following permissions:
 6. **Deploy the Function**:
    - Deploy the function and test it by uploading a PDF to the source bucket.
 
-## 📖 Usage
+## Usage
 
 1. Upload a PDF file to the source S3 bucket (e.g., `my-source-bucket/myfile.pdf`).
 2. The Lambda function will:
@@ -96,7 +96,7 @@ Create an IAM role with the following permissions:
 - Input: `my-source-bucket/document.pdf`
 - Output: `my-destination-bucket/document.txt`
 
-## 🧪 Testing
+## Testing
 
 1. **Local Testing**:
    - Simulate the Lambda event with a sample PDF and mock S3 using `boto3`.
@@ -119,7 +119,7 @@ Create an IAM role with the following permissions:
    - Upload a small PDF to the source bucket and monitor CloudWatch logs.
    - Verify the translated file appears in the destination bucket.
 
-## 🛑 Troubleshooting
+## Troubleshooting
 
 - **Error: "Unsupported file extension"**:
   - Ensure only PDF files are uploaded to the source bucket.
@@ -133,7 +133,7 @@ Create an IAM role with the following permissions:
 - **Logs**: Check CloudWatch logs for detailed error messages (`errors.log` for translation failures).
 
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please:
 1. Fork the repository.
